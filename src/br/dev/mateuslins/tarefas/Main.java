@@ -6,6 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.UUID;
+
+import br.dev.mateuslins.tarefas.model.Funcionario;
+import br.dev.mateuslins.tarefas.utils.Utils;
 
 public class Main {
 
@@ -13,14 +17,17 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-//		gravarArquivo();
-		lerArquivo();
-
+		Funcionario f = new Funcionario();
+		f.setNome("Paulo");
+		f.setCargo("Programador");
+		f.setSalario(1989.73);
+		
 	}
 	
 	private static void gravarArquivo() {
 		FileWriter fw = null;
 		BufferedWriter bw = null;
+		
 		try {
 			fw = new FileWriter(path, true);
 			bw = new BufferedWriter(fw);
