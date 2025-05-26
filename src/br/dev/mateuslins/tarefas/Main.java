@@ -8,7 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.UUID;
 
+import br.dev.mateuslins.tarefas.dao.FuncionarioDAO;
 import br.dev.mateuslins.tarefas.model.Funcionario;
+import br.dev.mateuslins.tarefas.ui.FrameFuncionario;
 import br.dev.mateuslins.tarefas.utils.Utils;
 
 public class Main {
@@ -17,10 +19,15 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Funcionario f = new Funcionario();
-		f.setNome("Paulo");
-		f.setCargo("Programador");
-		f.setSalario(1989.73);
+		new FrameFuncionario();
+		
+//		Funcionario f = new Funcionario();
+//		f.setNome("Priscila Duarte");
+//		f.setCargo("Gerente de Contas");
+//		f.setSalario(11989.73);
+//		
+//		FuncionarioDAO dao = new FuncionarioDAO(f);
+//		dao.gravar();
 		
 	}
 	
