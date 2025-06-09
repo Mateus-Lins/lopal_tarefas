@@ -14,6 +14,7 @@ import br.dev.mateuslins.tarefas.dao.FuncionarioDAO;
 import br.dev.mateuslins.tarefas.model.Funcionario;
 import br.dev.mateuslins.tarefas.ui.FrameFuncionario;
 import br.dev.mateuslins.tarefas.ui.FrameFuncionarioList;
+import br.dev.mateuslins.tarefas.ui.FrameGerenciador;
 import br.dev.mateuslins.tarefas.utils.Utils;
 
 public class Main {
@@ -22,7 +23,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		new FrameFuncionarioList();
+		new FrameGerenciador();
 			
 		
 		
