@@ -8,24 +8,62 @@ public class Tarefas {
 
 	private String titulo;	
 	private String descricao;
-	private LocalDate dataInicial;
-	private int prazo;
-	private LocalDate dataFinal;
+	private String dataInicial;
+	private String prazo;
+	private String dataFinal;
 	private String status;
-	private Funcionario responsavel;
-	private int codigo;
+	private String responsavel;
+	private String codigo;
 	
 	
-	public Tarefas(int codigo, String titulo, String descricao, LocalDate dataInicial, int prazo, Funcionario responsavel) {
-        this.codigo = codigo;
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.dataInicial = dataInicial;
-        this.prazo = prazo;
-        this.status = "NÃO INICIADO";
-        this.responsavel = responsavel;
-    }
+	public Tarefas() {
+		this.codigo = Utils.gerarUUID8();
+	}
 
+	public Tarefas(String titulo) {
+		this.titulo = titulo;
+		this.codigo = Utils.gerarUUID8();
+	}
+
+	public Tarefas(String prazo, String titulo) {
+
+		this.prazo = prazo;
+		this.titulo = titulo;
+		this.codigo = Utils.gerarUUID8();
+
+	}
+
+	public Tarefas(String prazo, String titulo, String descricao) {
+		this.prazo = prazo;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.codigo = Utils.gerarUUID8();
+	}
+
+	public Tarefas(String titulo, String descricao, String dataInicial, String prazo, String dataFinal) {
+
+		this.prazo = prazo;
+		this.dataInicial = dataInicial;
+		this.dataFinal = dataInicial;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.codigo = Utils.gerarUUID8();
+
+	}
+
+	public Tarefas(String titulo, String descricao, String dataInicial, String prazo, String dataFinal,
+			String status, String responsavel) {
+
+		this.prazo = prazo;
+		this.dataInicial = dataInicial;
+		this.dataFinal = dataInicial;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.codigo = Utils.gerarUUID8();
+		this.status = status;
+		this.responsavel = responsavel;
+
+	}
 
 	public String getTitulo() {
 		return titulo;
@@ -47,32 +85,32 @@ public class Tarefas {
 	}
 
 
-	public LocalDate getDataInicial() {
+	public String getDataInicial() {
 		return dataInicial;
 	}
 
 
-	public void setDataInicial(LocalDate dataInicial) {
+	public void setDataInicial(String dataInicial) {
 		this.dataInicial = dataInicial;
 	}
 
 
-	public int getPrazo() {
+	public String getPrazo() {
 		return prazo;
 	}
 
 
-	public void setPrazo(int prazo) {
+	public void setPrazo(String prazo) {
 		this.prazo = prazo;
 	}
 
 
-	public LocalDate getDataFinal() {
+	public String getDataFinal() {
 		return dataFinal;
 	}
 
 
-	public void setDataFinal(LocalDate dataFinal) {
+	public void setDataFinal(String dataFinal) {
 		this.dataFinal = dataFinal;
 	}
 
@@ -87,22 +125,22 @@ public class Tarefas {
 	}
 
 
-	public Funcionario getResponsavel() {
+	public String getResponsavel() {
 		return responsavel;
 	}
 
 
-	public void setResponsavel(Funcionario responsavel) {
+	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
 	}
 
 
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
 
 
-	public void setCodigo(int codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	

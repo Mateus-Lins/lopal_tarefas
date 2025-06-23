@@ -1,6 +1,7 @@
 package br.dev.mateuslins.tarefas.ui;
 
 import java.awt.Container;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -11,8 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.dev.mateuslins.tarefas.dao.FuncionarioDAO;
-import br.dev.mateuslins.tarefas.model.Funcionario;
+import br.dev.mateuslins.tarefas.dao.TarefasDAO;
+import br.dev.mateuslins.tarefas.model.Tarefas;
 
 public class FrameTarefasList {
 
@@ -63,8 +64,8 @@ public class FrameTarefasList {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new FrameTarefasCadastro();
-//				carregarDados();
+				new FrameTarefasCadastro(null);
+				carregarDados();
 
 			}
 		});
@@ -79,7 +80,19 @@ public class FrameTarefasList {
 
 	private void carregarDados() {
 //		TarefasDao
+		TarefasDAO dao = new TarefasDAO();
+		List<Tarefas> tarefas = dao.listar();
+
+		Object[][] dados = new Object[tarefas.size()][3];
+
+		int i = 0;
+		for (Tarefas t : tarefas) {
+			dados[i][0] = t.getCodigo();
+			dados[i][1] = t.getTitulo();
+			dados[i][2] = t.getResponsavel();
+			i++;
+		}
+
 	}
 
-	
 }
