@@ -143,5 +143,10 @@ public class Tarefas {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
+
+	public String toCSV() {
+	    return titulo + "," + descricao + "," + dataInicial + "," + prazo + "," + dataFinal + "," + status + "," + responsavel + "\n";
+	}
+
 	
 }
