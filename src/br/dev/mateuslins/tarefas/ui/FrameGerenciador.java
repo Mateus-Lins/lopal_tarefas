@@ -57,7 +57,7 @@ public class FrameGerenciador {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new FrameTarefasList();
+				new FrameTarefasList(tela);
 				
 			}
 		});

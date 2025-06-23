@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.List;
 
-import javax.swing.JButton;
+import javax.swing.JButton;	
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -27,192 +27,224 @@ import br.dev.mateuslins.tarefas.model.Tarefas;
 
 public class FrameTarefasCadastro {
 
-    private JLabel labelTitulo;
-    private JTextField txtTitulo;
-    private JLabel labelDescricao;
-    private JTextField txtDescricao;
-    private JLabel labelDataInicial;
-    private JTextField txtDataInicial;
-    private JLabel labelDataFinal;
-    private JTextField txtDataFinal;
-    private JLabel labelPrazo;
-    private JTextField txtPrazo;
-    private JLabel labelStatus;
-    private JComboBox<Status> cmbStatus;
-    private JLabel labelResponsavel;
-    private JComboBox<String> cmbResponsavel;
-    private JButton btnSalvar;
+	private JLabel labelTitulo;
+	private JTextField txtTitulo;
+	private JLabel labelDescricao;
+	private JTextField txtDescricao;
+	private JLabel labelDataInicial;
+	private JTextField txtDataIncial;
+	private JLabel labelDataDeConclusao;
+	private JTextField txtDataFinal;
+	private JLabel labelPrazo;
+	private JTextField txtPrazo;
+	private JLabel labelStatus;
+	private JComboBox<Status> cmbStatus;
+	private JLabel labelResponsavel;
+	private JComboBox cmbResponsavel;
+	private JButton btnSalvar;
+	private JButton btnSair;
 
-    public FrameTarefasCadastro(JFrame frame) {
-        criarTela(frame);
-    }
+	public FrameTarefasCadastro(JDialog dialog) {
+		criarTela(dialog);
+	}
 
-    public void criarTela(JFrame frame) {
-        JDialog tela = new JDialog(frame, true);
-        tela.setTitle("Cadastro de Tarefas");
-        tela.setSize(400, 600);
-        tela.setResizable(false);
-        tela.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        tela.setLayout(null);
-        tela.setLocationRelativeTo(frame);
+	public void criarTela(JDialog dialog) {
+		JDialog tela = new JDialog(dialog, true);
+		tela.setTitle("Cadastro de Tarefas");
+		tela.setSize(400, 600);
+		tela.setResizable(false);
+		tela.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		tela.setLayout(null);
+		tela.setLocationRelativeTo(dialog);
 
-        labelTitulo = new JLabel("Título:");
-        labelTitulo.setBounds(10, 10, 200, 30);
-        txtTitulo = new JTextField();
-        txtTitulo.setBounds(10, 40, 365, 30);
+		labelTitulo = new JLabel("Título:");
+		labelTitulo.setBounds(10, 10, 200, 30);
+		txtTitulo = new JTextField();
+		txtTitulo.setBounds(10, 40, 365, 30);
 
-        labelDescricao = new JLabel("Descrição:");
-        labelDescricao.setBounds(10, 75, 200, 30);
-        txtDescricao = new JTextField();
-        txtDescricao.setBounds(10, 105, 365, 30);
+		labelDescricao = new JLabel("Descrição:");
+		labelDescricao.setBounds(10, 75, 200, 30);
+		txtDescricao = new JTextField();
+		txtDescricao.setBounds(10, 105, 365, 30);
 
-        labelDataInicial = new JLabel("Data Inicial:");
-        labelDataInicial.setBounds(10, 140, 200, 30);
-        txtDataInicial = new JTextField();
-        txtDataInicial.setBounds(10, 170, 365, 30);
+		labelDataInicial = new JLabel("Data Inicial:");
+		labelDataInicial.setBounds(10, 140, 200, 30);
+		txtDataIncial = new JTextField();
+		txtDataIncial.setBounds(10, 170, 365, 30);
 
-        labelPrazo = new JLabel("Prazo (dias):");
-        labelPrazo.setBounds(10, 205, 150, 30);
-        txtPrazo = new JTextField();
-        txtPrazo.setBounds(10, 235, 365, 30);
+		labelPrazo = new JLabel("Prazo:");
+		labelPrazo.setBounds(10, 205, 150, 30);
+		txtPrazo = new JTextField();
+		txtPrazo.setBounds(10, 235, 365, 30);
 
-        labelDataFinal = new JLabel("Data conclusão:");
-        labelDataFinal.setBounds(10, 265, 150, 30);
-        txtDataFinal = new JTextField();
-        txtDataFinal.setBounds(10, 295, 365, 30);
-        txtDataFinal.setEditable(false);
+		labelDataDeConclusao = new JLabel("Data conclusão:");
+		labelDataDeConclusao.setBounds(10, 265, 150, 30);
+		txtDataFinal = new JTextField();
+		txtDataFinal.setBounds(10, 295, 365, 30);
 
-        labelStatus = new JLabel("Status:");
-        labelStatus.setBounds(10, 325, 150, 30);
-        cmbStatus = new JComboBox<>(Status.values());
-        cmbStatus.setBounds(10, 355, 150, 30);
+		labelStatus = new JLabel("Status:");
+		labelStatus.setBounds(10, 325, 150, 30);
+		cmbStatus = new JComboBox<>(Status.values());
+		cmbStatus.setBounds(10, 355, 150, 30);
 
-        labelResponsavel = new JLabel("Responsável:");
-        labelResponsavel.setBounds(10, 385, 150, 30);
+		labelResponsavel = new JLabel("Responsável:");
+		labelResponsavel.setBounds(10, 385, 150, 30);
 
-        cmbResponsavel = new JComboBox<>();
-        cmbResponsavel.setBounds(10, 415, 200, 30);
+		cmbResponsavel = new JComboBox<>();
+		cmbResponsavel.setBounds(10, 415, 150, 30);
 
-        FuncionarioDAO dao = new FuncionarioDAO();
-        List<Funcionario> funcionarios = dao.listar();
+		FuncionarioDAO dao = new FuncionarioDAO();
+		List<Funcionario> funcionario = dao.listar();
 
-        for (Funcionario f : funcionarios) {
-            cmbResponsavel.addItem(f.getNome());
-        }
+		for (Funcionario f : funcionario) {
+			cmbResponsavel.addItem(f.getNome()); // Adiciona diretamente o nome de cada funcionário
+		}
 
-        if (funcionarios.size() > 0) {
-            cmbResponsavel.setSelectedIndex(0);
-        }
+		// Define o primeiro item como selecionado por padrão
+		if (funcionario.size() > 0) {
+			cmbResponsavel.setSelectedIndex(0);
+		}
 
-        btnSalvar = new JButton("Salvar");
-        btnSalvar.setBounds(10, 465, 175, 40);
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.setBounds(10, 465, 175, 40);
+		
+		btnSair = new JButton("Sair");
+		btnSair.setBounds(190, 465, 175, 40);
+		
 
-        Container painel = tela.getContentPane();
-        painel.add(labelTitulo);
-        painel.add(txtTitulo);
-        painel.add(labelDescricao);
-        painel.add(txtDescricao);
-        painel.add(labelDataInicial);
-        painel.add(txtDataInicial);
-        painel.add(labelPrazo);
-        painel.add(txtPrazo);
-        painel.add(labelDataFinal);
-        painel.add(txtDataFinal);
-        painel.add(labelStatus);
-        painel.add(cmbStatus);
-        painel.add(labelResponsavel);
-        painel.add(cmbResponsavel);
-        painel.add(btnSalvar);
+		Container painel = tela.getContentPane();
+		painel.add(labelTitulo);
+		painel.add(txtTitulo);
+		painel.add(labelDescricao);
+		painel.add(txtDescricao);
+		painel.add(labelDataInicial);
+		painel.add(txtDataIncial);
+		painel.add(labelPrazo);
+		painel.add(txtPrazo);
+		painel.add(labelDataDeConclusao);
+		painel.add(txtDataFinal);
+		painel.add(labelStatus);
+		painel.add(cmbStatus);
+		painel.add(labelResponsavel);
+		painel.add(cmbResponsavel);
+		painel.add(btnSalvar);
+		painel.add(btnSair);
 
-        // Eventos para atualizar a data de conclusão
-        txtDataInicial.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                atualizarDataConclusao();
-            }
-        });
+		txtDataIncial.addFocusListener(new FocusAdapter() {
+			public void focusLost(FocusEvent e) {
+				atualizarDataConclusao();
+			}
+		});
+		txtPrazo.addFocusListener(new FocusAdapter() {
+			public void focusLost(FocusEvent e) {
+				atualizarDataConclusao();
+			}
+		});
 
-        txtPrazo.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                atualizarDataConclusao();
-            }
-        });
+		btnSair.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				int resposta = JOptionPane.showConfirmDialog(tela, "Confirma a saída do sistema?");
+				
+				if (resposta == 0) {
+					tela.dispose();
+				}
+				
+			}
+		});
+		
+		btnSalvar.addActionListener(new ActionListener() {
 
-        // Evento do botão Salvar
-        btnSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                salvarTarefa(tela);
-            }
-        });
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					
+				
+				String responsavelSelecionado = (String) cmbResponsavel.getSelectedItem();
 
-        tela.setVisible(true);
-    }
+				// Verificar se há um responsável selecionado
+				if (responsavelSelecionado == null || responsavelSelecionado.isEmpty()) {
+					JOptionPane.showMessageDialog(tela, "Selecione um responsável!", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 
-    private void atualizarDataConclusao() {
-        String dataInicialStr = txtDataInicial.getText().trim();
-        String prazoStr = txtPrazo.getText().trim();
+				Funcionario f = new Funcionario();
+				// Este condigo, pega o status selecionado
+				Status statusEscolhido = (Status) cmbStatus.getSelectedItem();
 
-        try {
-            if (dataInicialStr.isEmpty() || prazoStr.isEmpty()) {
-                txtDataFinal.setText("");
-                return;
-            }
+				// Criando Tarefa
+				Tarefas t = new Tarefas(txtTitulo.getText(), txtDescricao.getText(), txtDataIncial.getText(),
+						txtPrazo.getText(), txtDataFinal.getText(), statusEscolhido.name(),
+						responsavelSelecionado);
 
-            int prazoDias = Integer.parseInt(prazoStr);
+				// Ler data inicial e prazo
+				String dataInicialStr = txtDataIncial.getText();
+				int prazoDias = Integer.parseInt(txtPrazo.getText());
 
-            DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                    .appendValue(ChronoField.DAY_OF_MONTH)
-                    .appendLiteral('/')
-                    .appendValue(ChronoField.MONTH_OF_YEAR)
-                    .appendLiteral('/')
-                    .appendValue(ChronoField.YEAR, 4)
-                    .toFormatter();
+				// Converter e somar prazo usando LocalDate
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				LocalDate dataInicial = LocalDate.parse(dataInicialStr, formatter);
+				LocalDate dataConclusao = dataInicial.plusDays(prazoDias);
+				String dataConclusaoStr = dataConclusao.format(formatter);
+				txtDataFinal.setText(dataConclusaoStr);
 
-            LocalDate dataInicial = LocalDate.parse(dataInicialStr, formatter);
-            LocalDate dataFinal = dataInicial.plusDays(prazoDias);
-            String dataFinalStr = dataFinal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+				TarefasDAO dao = new TarefasDAO(t);
+				dao.gravar();
 
-            txtDataFinal.setText(dataFinalStr);
-        } catch (Exception e) {
-            txtDataFinal.setText("Data inválida");
-        }
-    }
+				JOptionPane.showMessageDialog(tela, txtTitulo.getText() + " gravado com sucesso", "Sucesso !!!",
+						JOptionPane.INFORMATION_MESSAGE);
+				limparFormulario();
+				
+				} catch (Exception erro) {
+					JOptionPane.showMessageDialog(tela, "Por favor, corrija os campos preenchidos incorretamente", "ERRO",
+					JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+			}
+			
+		});
 
-    private void salvarTarefa(JDialog tela) {
-        String titulo = txtTitulo.getText().trim();
-        String descricao = txtDescricao.getText().trim();
-        String dataInicial = txtDataInicial.getText().trim();
-        String prazo = txtPrazo.getText().trim();
-        String dataFinal = txtDataFinal.getText().trim();
-        Status status = (Status) cmbStatus.getSelectedItem();
-        String responsavel = (String) cmbResponsavel.getSelectedItem();
+		tela.setVisible(true);
 
-        if (titulo.isEmpty() || descricao.isEmpty() || dataInicial.isEmpty() ||
-                prazo.isEmpty() || dataFinal.isEmpty() || responsavel == null) {
-            JOptionPane.showMessageDialog(tela, "Preencha todos os campos!", "Aviso", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+	}
 
-        Tarefas tarefa = new Tarefas(
-                titulo, descricao, dataInicial, prazo, dataFinal, status.name(), responsavel
-        );
+	private void atualizarDataConclusao() {
+		String dataInicialStr = txtDataIncial.getText().trim();
+		String prazoStr = txtPrazo.getText().trim();
 
-        TarefasDAO dao = new TarefasDAO(tarefa);
-        dao.gravar();
+		try {
+			if (dataInicialStr.isEmpty() || prazoStr.isEmpty())
+				return;
 
-        JOptionPane.showMessageDialog(tela, "Tarefa gravada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			int prazoDias = Integer.parseInt(prazoStr);
 
-        limparFormulario();
-    }
+			DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendValue(ChronoField.DAY_OF_MONTH)
+					.appendLiteral('/').appendValue(ChronoField.MONTH_OF_YEAR).appendLiteral('/')
+					.appendValue(ChronoField.YEAR, 4).toFormatter();
 
-    private void limparFormulario() {
-        txtTitulo.setText("");
-        txtDescricao.setText("");
-        txtDataInicial.setText("");
-        txtPrazo.setText("");
-        txtDataFinal.setText("");
-        cmbStatus.setSelectedIndex(0);
-        cmbResponsavel.setSelectedIndex(0);
-        txtTitulo.requestFocus();
-    }
+			LocalDate dataInicial = LocalDate.parse(dataInicialStr, formatter);
+			LocalDate dataConclusao = dataInicial.plusDays(prazoDias);
+			String dataConclusaoStr = dataConclusao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+			txtDataFinal.setText(dataConclusaoStr);
+		} catch (Exception e) {
+			txtDataFinal.setText("Data inválida");
+		}
+	}
+
+	private void limparFormulario() {
+		txtTitulo.setText(null);
+		txtDescricao.setText(null);
+		txtDataIncial.setText(null);
+		txtPrazo.setText(null);
+		txtDataFinal.setText(null);
+		cmbResponsavel.setSelectedIndex(0);
+		cmbStatus.setSelectedIndex(0);
+		txtTitulo.requestFocus();
+	}
+
 }

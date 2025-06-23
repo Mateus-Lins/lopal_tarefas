@@ -1,59 +1,78 @@
 package br.dev.mateuslins.tarefas.dao;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import br.dev.mateuslins.tarefas.factory.FileFactory;
+import br.dev.mateuslins.tarefas.model.Status;
 import br.dev.mateuslins.tarefas.model.Tarefas;
 
 public class TarefasDAO {
 
-    private Tarefas tarefa;
+	private Tarefas tarefas;
 
-    public TarefasDAO() {}
+	public TarefasDAO() {
+	}
 
-    public TarefasDAO(Tarefas tarefa) {
-        this.tarefa = tarefa;
-    }
+	public TarefasDAO(Tarefas tarefas) {
+		this.tarefas = tarefas;
+	}
 
-    public void gravar() {
-        FileFactory ff = new FileFactory();
-        try (BufferedWriter bw = ff.getBufferedWriterTarefas(true)) {
-            bw.write(tarefa.toCSV());
-        } catch (IOException erro) {
-            erro.printStackTrace();
-        }
-    }
+	public void gravar() {
+		try {
+			FileFactory ff = new FileFactory();
+			ff.getBufferedWriterTarefas().write(tarefas.toString());
+			ff.getBufferedWriterTarefas().flush();
 
-    public List<Tarefas> listar() {
-        List<Tarefas> tarefas = new ArrayList<>();
-        FileFactory ff = new FileFactory();
+		} catch (IOException erro) {
 
-        try (BufferedReader br = ff.getBufferedReaderTarefas()) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                if (!linha.trim().isEmpty()) {
-                    String[] tarefaStr = linha.split(",");
-                    if (tarefaStr.length >= 7) {
-                        Tarefas t = new Tarefas();
-                        t.setTitulo(tarefaStr[0]);
-                        t.setDescricao(tarefaStr[1]);
-                        t.setDataInicial(tarefaStr[2]);
-                        t.setPrazo(tarefaStr[3]);
-                        t.setDataFinal(tarefaStr[4]);
-                        t.setStatus(tarefaStr[5]);
-                        t.setResponsavel(tarefaStr[6]);
-                        tarefas.add(t);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			erro.printStackTrace();
+		}
+	}
 
-        return tarefas;
-    }
+	public List<Tarefas> listar() {
+
+		List<Tarefas> tarefas = new ArrayList<Tarefas>();
+
+		try {
+			FileFactory ff = new FileFactory();
+			BufferedReader br = ff.getBufferedReaderTarefas();
+			BufferedReader br1 = ff.getBufferedReaderFuncionario();
+
+			String linha = "";
+			String linha1 = "";
+
+			br.readLine();
+			br1.readLine();
+
+			while ((linha = br.readLine()) != null) {
+				if (!linha.trim().isEmpty()) {
+					String[] tarefaStr = linha.split(",");
+
+					if (tarefaStr.length >= 7) { 
+						Tarefas tarefa = new Tarefas();
+						tarefa.setTitulo(tarefaStr[0]);
+						tarefa.setDescricao(tarefaStr[1]);
+						tarefa.setDataInicial(tarefaStr[2]);
+						tarefa.setPrazo(tarefaStr[3]);
+						tarefa.setDataFinal(tarefaStr[4]);
+						tarefa.setStatus(tarefaStr[5]);
+						tarefa.setResponsavel(tarefaStr[6]);
+
+						tarefas.add(tarefa);
+					}
+				}
+			}
+			br.close();
+			return tarefas;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<Tarefas>(); 
+		}
+	}
+
 }

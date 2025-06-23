@@ -59,7 +59,7 @@ public class FuncionarioDAO {
 				funcionario.setMatricula(funcionarioStr[0]);
 				funcionario.setNome(funcionarioStr[1]);
 				funcionario.setCargo(funcionarioStr[2]);
-				funcionario.setSalario(Double.parseDouble(funcionarioStr[3]));
+//				funcionario.setSalario(Double.parseDouble(funcionarioStr[3]));
 				
 				funcionarios.add(funcionario);
 			

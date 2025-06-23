@@ -67,8 +67,8 @@ public class Funcionario {
 	
 	@Override
 	public String toString() {
-		String funcionario = matricula + "," + nome + "," + cargo + "," + salario + "\n";
-		return funcionario;
+	    return matricula + "," + nome + "," + cargo + "," + salario;
 	}
+
 	
 }

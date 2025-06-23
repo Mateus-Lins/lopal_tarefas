@@ -1,11 +1,13 @@
 package br.dev.mateuslins.tarefas.ui;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,81 +18,95 @@ import br.dev.mateuslins.tarefas.model.Tarefas;
 
 public class FrameTarefasList {
 
-    private JTable tabelaTarefas;
-    private JScrollPane scrollTarefas;
-    private DefaultTableModel modelTarefas;
-    private String[] colunas = { "CÓDIGO", "NOME", "Responsável" };
-    private JButton btnNovaTarefa;
-    private JButton btnSair;
+	private JTable tabelaTarefas;
+	private DefaultTableModel modelTarefas;
+	private JScrollPane scrollTarefas;
+	private JButton btnNovaTarefa;
+	private JButton btnSair;
+	private String[] colunas = { "CÓDIGO", "TAREFA", "RESPONSÁVEL" };
+	
+	public FrameTarefasList(JFrame FrameGerenciador) {
+		criarTela(FrameGerenciador);
+	}
 
-    public FrameTarefasList() {
-        criarTela();
-    }
+	public void criarTela(JFrame FrameGerenciador) {
 
-    private void criarTela() {
+		
+		JDialog tela = new JDialog(FrameGerenciador, true);
+		Dimension tamanho = new Dimension();
+		tamanho.setSize(500, 420);
+		tela.setSize(tamanho);
+		tela.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		tela.setTitle("Lista de Tarefas");
+		tela.setLayout(null);
+		tela.setLocationRelativeTo(FrameGerenciador);
+		tela.setResizable(false);
 
-        JFrame tela = new JFrame();
-        tela.setSize(500, 500);
-        tela.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        tela.setLayout(null);
-        tela.setLocationRelativeTo(null);
-        tela.setTitle("Lista de Tarefas");
-        tela.setResizable(false);
+		modelTarefas = new DefaultTableModel(colunas, 5) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 
-        Container painel = tela.getContentPane();
+		tabelaTarefas = new JTable(modelTarefas);
+		tabelaTarefas.getTableHeader().setReorderingAllowed(false);
+		scrollTarefas = new JScrollPane(tabelaTarefas);
+		scrollTarefas.setBounds(10, 20, 460, 300);
 
-        modelTarefas = new DefaultTableModel(colunas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+		carregarDados();
+		
+		btnNovaTarefa = new JButton("Nova Tarefa");
+		btnNovaTarefa.setBounds(10, 330, 180, 40);
 
-        tabelaTarefas = new JTable(modelTarefas);
-        tabelaTarefas.getTableHeader().setReorderingAllowed(false);
-        scrollTarefas = new JScrollPane(tabelaTarefas);
-        scrollTarefas.setBounds(10, 60, 460, 300);
+		btnNovaTarefa.addActionListener(new ActionListener() {
 
-        carregarDados();
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-        btnNovaTarefa = new JButton("Nova Tarefa");
-        btnNovaTarefa.setBounds(10, 380, 200, 40);
+				new FrameTarefasCadastro(tela);
+				carregarDados();
 
-        btnSair = new JButton("Sair");
-        btnSair.setBounds(220, 380, 200, 40);
+			}
+		});
 
-        btnNovaTarefa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new FrameTarefasCadastro(tela);
-                carregarDados();
-            }
-        });
+		btnSair = new JButton("Sair");
+		btnSair.setBounds(200, 330, 180, 40);
 
-        btnSair.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tela.dispose();
-            }
-        });
+		btnSair.addActionListener(new ActionListener() {
 
-        painel.add(btnNovaTarefa);
-        painel.add(btnSair);
-        painel.add(scrollTarefas);
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-        tela.setVisible(true);
-    }
+				tela.dispose();
+				carregarDados();
 
-    private void carregarDados() {
-        TarefasDAO dao = new TarefasDAO();
-        List<Tarefas> tarefas = dao.listar();
+			}
+		});
 
-        modelTarefas.setRowCount(0);
+		Container painel = tela.getContentPane();
+		painel.add(scrollTarefas);
+		painel.add(btnNovaTarefa);
+		painel.add(btnSair);
 
-        for (Tarefas t : tarefas) {
-            modelTarefas.addRow(new Object[]{
-                t.getCodigo(), t.getTitulo(), t.getResponsavel()
-            });
-        }
-    }
+		tela.setVisible(true);
+
+	}
+
+	private void carregarDados() {
+		TarefasDAO dao = new TarefasDAO();
+		List<Tarefas> tarefas = dao.listar();
+
+		Object[][] dados = new Object[tarefas.size()][3];
+
+		int i = 0;
+		for (Tarefas t : tarefas) {
+			dados[i][0] = t.getCodigo();
+			dados[i][1] = t.getTitulo();
+			dados[i][2] = t.getResponsavel();
+			i++;
+		}
+
+		modelTarefas.setDataVector(dados, colunas);
+	}
 }
