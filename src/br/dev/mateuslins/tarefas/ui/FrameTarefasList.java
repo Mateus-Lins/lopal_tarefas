@@ -64,7 +64,7 @@ public class FrameTarefasList {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new FrameTarefasCadastro();
-				carregarDados();
+//				carregarDados();
 
 			}
 		});
@@ -78,7 +78,7 @@ public class FrameTarefasList {
 	}
 
 	private void carregarDados() {
-		TarefasDao
+//		TarefasDao
 	}
 
 	
